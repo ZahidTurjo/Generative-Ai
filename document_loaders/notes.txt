@@ -1,0 +1,46 @@
+# STATISTICAL MODELING CORE: SIMPLE LINEAR REGRESSION (SLR)
+Simple Linear Regression is a statistical method used to model the relationship between a single independent variable (predictor) and a single dependent variable (outcome).
+- Mathematical Formula: Y = beta_0 + beta_1 * X + epsilon
+- Component Definitions: 
+  * Y: The dependent variable or target vector.
+  * X: The independent variable or feature matrix.
+  * beta_0: The Y-intercept, representing the expected value of Y when X equals zero.
+  * beta_1: The slope coefficient, indicating the change in Y for a one-unit change in X.
+  * epsilon: The random error term or residual vector.
+- Estimation Method: Ordinary Least Squares (OLS) is primarily used to minimize the sum of squared residuals (SSR).
+
+# STATISTICAL MODELING ADVANCED: MULTIPLE LINEAR REGRESSION (MLR)
+Multiple Linear Regression extends SLR by modeling the relationship between one dependent variable and two or more independent variables.
+- Mathematical Formula: Y = beta_0 + beta_1 * X_1 + beta_2 * X_2 + ... + beta_p * X_p + epsilon
+- Matrix Notation: Y = X * Beta + Epsilon
+- Optimization Goal: To find the coefficient vector (Beta) that minimizes the loss function. The analytical closed-form solution is computed as: Beta = (X^T * X)^(-1) * X^T * Y.
+- Degrees of Freedom: The degrees of freedom for residuals in MLR is calculated as n - p - 1, where n is the number of observations and p is the number of predictors.
+
+# CORE ASSUMPTIONS OF LINEAR MODELS
+To ensure OLS estimators are Best Linear Unbiased Estimators (BLUE) under the Gauss-Markov theorem, five assumptions must hold:
+1. Linearity: The relationship between the independent and dependent variables must be linear in the coefficients.
+2. Homoscedasticity: The variance of the error terms (epsilon) must be constant across all levels of the independent variables.
+3. Independence of Errors: Observations must be independent of one another. No autocorrelation should exist in the residuals.
+4. Normality of Residuals: For proper hypothesis testing and confidence intervals, errors must be normally distributed with a mean of zero: epsilon ~ N(0, sigma^2).
+5. No Perfect Multicollinearity (MLR only): No independent variable can be a perfect linear combination of other independent variables.
+
+# STATISTICAL DIAGNOSTICS AND METRICS
+Evaluating linear models requires specific statistical indicators to assess fit and validate assumptions.
+- R-Squared (Coefficient of Determination): Measures the proportion of variance in the dependent variable explained by the model. Formula: R^2 = 1 - (SSR / SST), where SST is Total Sum of Squares.
+- Adjusted R-Squared: Modifies R-Squared by penalizing the addition of unnecessary predictors. Formula: Adj_R^2 = 1 - [((1 - R^2) * (n - 1)) / (n - p - 1)].
+- Durbin-Watson Test: Used to detect the presence of autocorrelation in the residuals. The test statistic ranges from 0 to 4. A value near 2 indicates no autocorrelation.
+- Variance Inflation Factor (VIF): Quantifies the severity of multicollinearity in an MLR model. Formula: VIF_i = 1 / (1 - R_i^2), where R_i^2 is the R-squared obtained by regressing predictor X_i against all other predictors.
+
+# TROUBLESHOOTING WORKFLOW: MODEL VIOLATIONS
+When diagnostics reveal that standard assumptions are broken, data scientists must apply specific remediation workflows.
+- Scenario A: High Multicollinearity Detected
+  * Diagnostic Signal: A predictor variable exhibits a VIF value greater than 5.0 (moderate) or greater than 10.0 (severe).
+  * Resolution Protocol: 
+    1. Identify highly correlated pairs using a Pearson correlation matrix.
+    2. Drop the predictor with the lower domain relevance or higher VIF.
+    3. Alternatively, apply Feature Extraction techniques like Principal Component Regression (PCR).
+- Scenario B: Heteroscedasticity Detected
+  * Diagnostic Signal: A residual plot displays a distinct megaphone or funnel shape, or a Breusch-Pagan test yields a p-value less than 0.05.
+  * Resolution Protocol:
+    1. Apply a non-linear log transformation to the dependent variable (Y).
+    2. Switch the estimation method from Ordinary Least Squares (OLS) to Weighted Least Squares (WLS).
